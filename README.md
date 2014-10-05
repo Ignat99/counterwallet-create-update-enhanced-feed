@@ -49,7 +49,9 @@ Update Feed wizard updates `value` and creates another broadcasts from the same 
 
 ## QUESTIONS?
 
-Post them under Issues for this repository
+Questions related to this document should be posted under Issues for this repository.
+Questions related to actual implementation and coding should be posted under:
+[https://github.com/CounterpartyXCP/counterwallet/issues/449](https://github.com/CounterpartyXCP/counterwallet/issues/449)
 
 ## COMMITS
 
