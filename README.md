@@ -16,7 +16,9 @@ a) If there is no active feed at the adress, a Create Enhanced Feed form is pres
 
 b) If there is an active feed at the address, an Edit Enhanced Feed form is presented
 
-## FIELD VALUES / OPTIONS
+### INPUTS / OPTIONS
+
+#### CREATE 
 
 - Feed address (a drop-down list; one of user's Counterwallet addresses that has non-zero balance in BTC and XCP)
 
@@ -30,9 +32,19 @@ that is "2014-07-01T05:06:07+00:00" (this is to keep it simple)
 
 - The rest is as per [https://wiki.counterparty.io/w/Enhanced_Feed_Info_in_Counterwallet](https://wiki.counterparty.io/w/Enhanced_Feed_Info_in_Counterwallet) (or scroll down to see a reference JSON file at the bottom)
 
-## UPDATE
+- **NOTE**: In example below there are multiple `targets`. The first version of Create Feed Wizard only needs to be ablie to create a single target `text`.
+ 
+#### UPDATE
  
 - The same fields can be displayed as in Created Enhanced Feed wizard, but updates can be made to only one field: `value` (to keep it simple)
+
+
+### OUTPUTS
+
+Create Feed wizard creates a broadcasts and shows (at the bottom) a JSON file for it as per example at the bottom of this page.
+Then it's up to the user to take care of the rest.
+
+Update Feed wizard updates `value` and creates another broadcasts from the same wallet address which effectively updates the broadcast.
 
 ## REFERENCE
 
