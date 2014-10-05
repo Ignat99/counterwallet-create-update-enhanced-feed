@@ -6,6 +6,8 @@ counterwallet-create-enhanced-feed
 A single-page wizard inside of Counterwallet that helps the user to create a binary feed using one of his 
 Counterwallet addresses and update it as necessary.
 
+Below is approximate description of how these features should work. It doesn't have to be done that way - anything that works and that project leaders accept is good.
+
 ## WORKFLOW, INPUTS AND OUTPUTS
 
 The page initially presents a drop down list of user's addresses with non-zero balance in both BTC and XCP. 
@@ -38,13 +40,20 @@ that is "2014-07-01T05:06:07+00:00" (this is to keep it simple)
  
 - The same fields can be displayed as in Created Enhanced Feed wizard, but updates can be made to only one field: `value` (to keep it simple)
 
-
 ### OUTPUTS
 
 Create Feed wizard creates a broadcasts and shows (at the bottom) a JSON file for it as per example at the bottom of this page.
 Then it's up to the user to take care of the rest.
 
 Update Feed wizard updates `value` and creates another broadcasts from the same wallet address which effectively updates the broadcast.
+
+## QUESTIONS?
+
+Post them under Issues for this repository
+
+## COMMITS
+
+Create pull requests against https://github.com/CounterpartyXCP/counterwallet/tree/develop
 
 ## REFERENCE
 
@@ -54,22 +63,24 @@ Update Feed wizard updates `value` and creates another broadcasts from the same 
 
 1) How to test/develop
 
-Install Federated Node, let it sync. 
+- Install Federated Node, let it sync: 
 http://counterpartyd-build.readthedocs.org/en/latest/SettingUpAFederatedNode.html#introduction
 
-Modify/edit/create files as necessary:
+- Modify/edit/create files as necessary:
 http://support.counterparty.io/support/solutions/articles/5000049867-i-installed-federated-node-what
 
-Create pull request against Counterwallet develop branch
+Create a wallet and add required files. 
+
+Create pull request against Counterwallet develop branch.
 
 2) API
 
-Some important commands:
+Some API commands that may come handy for creates and updates:
 
 * `create_broadcast` (to create)
 * `get_{table}` (e.g. `get_broadcasts` (to get a list of broadcasts))
 
-See [https://github.com/CounterpartyXCP/counterpartyd/blob/master/docs/API.rst](https://github.com/CounterpartyXCP/counterpartyd/blob/master/docs/API.rst) for examples and details
+See [https://github.com/CounterpartyXCP/counterpartyd/blob/master/docs/API.rst](https://github.com/CounterpartyXCP/counterpartyd/blob/master/docs/API.rst) for examples and additional details.
 
 2) Feed format
 
