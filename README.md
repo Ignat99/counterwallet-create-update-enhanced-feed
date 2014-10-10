@@ -10,6 +10,8 @@ Below is approximate description of how these features should work. It doesn't h
 
 ## WORKFLOW, INPUTS AND OUTPUTS
 
+NOTE: There already is a Create Feed feature in Counterwallet (see under Address Actions > Create Feed) but it does not create Enhanced Feed.
+
 The page initially presents a drop down list of user's addresses with non-zero balance in both BTC and XCP. 
 
 Because only one feed can exist per address, upon selection:
@@ -62,6 +64,7 @@ Create pull requests against https://github.com/CounterpartyXCP/counterwallet/tr
 0) Source code of interest
 * https://github.com/CounterpartyXCP/counterwallet/blob/develop/src/js/components/betting.js
 * https://github.com/CounterpartyXCP/counterwallet/blob/develop/src/pages/betting.html
+* 
 
 1) How to test/develop
 
