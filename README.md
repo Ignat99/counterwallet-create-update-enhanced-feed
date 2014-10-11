@@ -1,6 +1,43 @@
 counterwallet-create-enhanced-feed
 ==================================
 
+## INSTALL
+
+### Installing server (graphics client)
+
+Now it is called the client in the same sense that the X11 (graphic system) in Unix.
+
+[Using http://socket.io with Node http server](http://socket.io/docs/#)
+
+    $ npm install http
+    $ npm install socket.io
+    $ npm install fs
+    $ node app.js
+
+In the test nodejs application we use port 8080
+
+    app.listen(8080);
+    
+### Installing client (grapics server)
+You can enter the command in the same directory, where to be index.html.
+In the page index.html we have link to server code: https://cdn.socket.io/socket.io-1.1.0.js
+    <script src="https://cdn.socket.io/socket.io-1.1.0.js"></script>
+    
+But possible shared from our CounterWallet node server or from servers (identification or authentication or keys or license) .
+
+    <script src="/socket.io/socket.io-1.1.0.js"></script>
+
+    
+Port inside the index.html the same like in server
+
+    <script>
+        var socket = io('http://localhost:8080');
+     ....
+    </script>
+    
+For run client (grapics server) with port 8080 just open www/index.html in browser
+
+
 ## OBJECTIVE
 
 A single-page wizard inside of Counterwallet that helps the user to create a binary feed using one of his 
