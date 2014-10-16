@@ -1377,6 +1377,105 @@ function BroadcastModalViewModel() {
   }
 }
 
+function EnhancedBroadcastModalViewModel() {
+  var self = this;
+
+  self.addressObj = null;
+
+  self.shown = ko.observable(false);
+
+  self.address = ko.observable(null).extend({
+    required: true   
+  });
+
+  self.textValue = ko.observable('').extend({
+    required: true   
+  });
+
+  self.numericalValue = ko.observable(-1).extend({
+    number: true
+  });
+
+  self.feeFraction = ko.observable(0).extend({
+    max: 42.94967295,
+    isValidPositiveQuantityOrZero: self
+
+  });
+
+  self.broadcastDate = ko.observable(new Date()).extend({
+    date: true
+  });
+
+  self.validationModel = ko.validatedObservable({
+    address: self.address,
+    textValue: self.textValue,
+    textValue1: self.textValue,
+    textValue2: self.textValue,
+    textValue3: self.textValue,
+    textValue4: self.textValue,
+    numericalValue: self.numericalValue,
+    feeFraction: self.feeFraction,
+    broadcastDate: self.broadcastDate
+  });
+
+  self.resetForm = function() {
+    self.addressObj = null;
+    self.address(null);
+    self.textValue('');
+    self.numericalValue(-1);
+    self.feeFraction(0);
+    self.broadcastDate(new Date());
+    self.validationModel.errors.showAllMessages(false);
+  }
+  
+  self.show = function(addressObj, resetForm) {
+    if(typeof(resetForm)==='undefined') resetForm = true;
+    if(resetForm) self.resetForm();
+    self.addressObj = addressObj;
+    self.address(self.addressObj.ADDRESS);
+    self.shown(true);
+    trackDialogShow('EnhancedBroadcast');
+  }  
+
+  self.hide = function() {
+    self.shown(false);
+  }
+
+  self.submitForm = function() {
+    if (!self.validationModel.isValid()) {
+      self.validationModel.errors.showAllMessages();
+      return false;
+    }    
+    //data entry is valid...submit to the server
+    $('#enhancedBroadcastModal form').submit();
+  }
+
+  self.doAction = function() {
+    var params = {
+      source: self.address(),
+      fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
+      text: self.textValue(),
+      timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
+      value: parseFloat(self.numericalValue())
+    }
+    //$.jqlog.debug(params); 
+    
+    var onSuccess = function(txHash, data, endpoint, addressType, armoryUTx) {
+      self.hide();
+      WALLET.showTransactionCompleteDialog(i18n.t("broadcast_transmitted") + " " + i18n.t(ACTION_PENDING_NOTICE),
+        i18n.t("broadcast_to_be_transmitted"), armoryUTx);
+    }
+
+    var onError = function(jqXHR, textStatus, errorThrown, endpoint) {
+      self.hide();
+      bootbox.alert(textStatus);
+    }
+
+    WALLET.doTransaction(self.address(), "create_broadcast", params, onSuccess, onError);
+    trackEvent('Balances', 'Broadcast');
+  }
+}
+
 function SignTransactionModalViewModel() {
   var self = this;
   self.shown = ko.observable(false);
