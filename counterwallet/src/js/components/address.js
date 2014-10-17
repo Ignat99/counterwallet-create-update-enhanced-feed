@@ -261,6 +261,12 @@ function AddressViewModel(type, key, address, initialLabel, armoryPubKey) {
     if(!WALLET.canDoTransaction(self.ADDRESS)) return false;
     BROADCAST_MODAL.show(self, true);
   };
+
+  self.enhancedBroadcast = function () {
+    if(WALLET.canDoTransaction(self.ADDRESS)) return false;
+    ENHANCED_BROADCAST_MODAL.show(self, true);
+  };
+
   
   self.selectAddressText = function() {
     return selectText('address-text-' + self.ADDRESS);    
