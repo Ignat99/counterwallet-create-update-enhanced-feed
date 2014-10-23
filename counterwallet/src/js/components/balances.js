@@ -1471,10 +1471,10 @@ function EnhancedBroadcastModalViewModel() {
   self.doAction = function() {
     var params = {
       source: self.address(),
-      fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
-      text: self.textValue(),
+      enhanced_fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
+      enhanced_text3: self.textValue(),
       timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
-      value: parseFloat(self.numericalValue()),
+      enhanced_value: parseFloat(self.numericalValue()),
       enhanced_text1: bootbox.alert("data 1: " + self.jsonValue1()),
       enhanced_text2: bootbox.alert("data 2: " + self.jsonValue1())
     }
