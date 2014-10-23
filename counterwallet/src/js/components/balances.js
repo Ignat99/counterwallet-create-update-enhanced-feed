@@ -1379,6 +1379,7 @@ function BroadcastModalViewModel() {
 
 function EnhancedBroadcastModalViewModel() {
   var self = this;
+  //var tv4 = require('tv4');
   // http://geraintluff.github.io/tv4/
   // var schema = tv4.getSchema('https://raw.githubusercontent.com/CounterpartyXCP/counterblockd/master/schemas/feed.schema.json');
   
@@ -1474,19 +1475,21 @@ function EnhancedBroadcastModalViewModel() {
       enhanced_fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
       enhanced_text3: self.textValue(),
       timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
-      enhanced_value: parseFloat(self.numericalValue()),
-      enhanced_text1: bootbox.alert("data 1: " + self.jsonValue1()),
-      enhanced_text2: bootbox.alert("data 2: " + self.jsonValue2())
+      enhanced_value: parseFloat(self.numericalValue())
+      //enhanced_text1: bootbox.alert("data 1: " + self.jsonValue1()),
+      //enhanced_text2: bootbox.alert("data 2: " + self.jsonValue2())
     }
     //$.jqlog.debug(params); 
     
     var onSuccess = function(txHash, data, endpoint, addressType, armoryUTx) {
+      bootbox.alert("data 1: " + self.jsonValue1());
       self.hide();
       WALLET.showTransactionCompleteDialog(i18n.t("broadcast_transmitted") + " " + i18n.t(ACTION_PENDING_NOTICE),
         i18n.t("broadcast_to_be_transmitted"), armoryUTx);
     }
 
     var onError = function(jqXHR, textStatus, errorThrown, endpoint) {
+      bootbox.alert("data 1: " + self.jsonValue1());
       self.hide();
       bootbox.alert(textStatus);
     }
