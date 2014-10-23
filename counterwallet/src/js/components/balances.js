@@ -1379,6 +1379,21 @@ function BroadcastModalViewModel() {
 
 function EnhancedBroadcastModalViewModel() {
   var self = this;
+  // http://geraintluff.github.io/tv4/
+  // var schema = tv4.getSchema('https://raw.githubusercontent.com/CounterpartyXCP/counterblockd/master/schemas/feed.schema.json');
+  
+  tv4.addSchema("http://json-schema.org/schema", {
+      "definitions": {
+          "arrayItem": {"type": "boolean"}
+      }
+  });
+  var schema = {
+      "type": "array",
+      "items": {"$ref": "http://json-schema.org/schema#/definitions/arrayItem" }
+  };
+  var data1 = [true, false, true];
+  var data2 = [1, 2, 3];
+
 
   self.addressObj = null;
 
@@ -1387,6 +1402,9 @@ function EnhancedBroadcastModalViewModel() {
   self.address = ko.observable(null).extend({
     required: true   
   });
+
+  self.jsonValue1 = tv4.validate(data1, schema);
+  self.jsonValue2 = tv4.validate(data2, schema);
 
   self.textValue = ko.observable('').extend({
     required: true   
@@ -1456,7 +1474,9 @@ function EnhancedBroadcastModalViewModel() {
       fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
       text: self.textValue(),
       timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
-      value: parseFloat(self.numericalValue())
+      value: parseFloat(self.numericalValue()),
+      enhanced_text1: bootbox.alert("data 1: " + self.jsonValue1()),
+      enhanced_text2: bootbox.alert("data 2: " + self.jsonValue1())
     }
     //$.jqlog.debug(params); 
     
