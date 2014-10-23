@@ -1476,7 +1476,7 @@ function EnhancedBroadcastModalViewModel() {
       timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
       enhanced_value: parseFloat(self.numericalValue()),
       enhanced_text1: bootbox.alert("data 1: " + self.jsonValue1()),
-      enhanced_text2: bootbox.alert("data 2: " + self.jsonValue1())
+      enhanced_text2: bootbox.alert("data 2: " + self.jsonValue2())
     }
     //$.jqlog.debug(params); 
     
