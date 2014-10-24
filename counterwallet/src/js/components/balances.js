@@ -1404,8 +1404,27 @@ function EnhancedBroadcastModalViewModel() {
     required: true   
   });
 
-  self.jsonValue1 = tv4.validate(data1, schema);
-  self.jsonValue2 = tv4.validate(data2, schema);
+  //self.enhancedTypeFormat = ko.observable('binary');
+
+  self.textValue0 =  ko.observable('The Bitcoin address used to broadcast').extend({
+    required: true
+  });
+
+  self.textValue2 =  ko.observable('A longish description about this feed. 255 characters max').extend({
+    required: true
+  });
+
+  self.textValue1 =  ko.observable('Topic of the target_value. 64 characters max').extend({
+    required: true
+  });
+
+  self.textValue3 = ko.observable('The value used for this target_value').extend({
+    required: true
+  });
+
+  self.textValue4 = ko.observable('Label for Equal. 32 characters max').extend({
+    required: true
+  });
 
   self.textValue = ko.observable('').extend({
     required: true   
@@ -1427,11 +1446,12 @@ function EnhancedBroadcastModalViewModel() {
 
   self.validationModel = ko.validatedObservable({
     address: self.address,
-    textValue: self.textValue,
-    textValue1: self.textValue,
-    textValue2: self.textValue,
-    textValue3: self.textValue,
-    textValue4: self.textValue,
+//    textValue: self.textValue,
+ //   textValue0: self.textValue0,
+ //   textValue1: self.textValue1,
+ //   textValue2: self.textValue2,
+ //   textValue3: self.textValue3,
+//    textValue4: self.textValue4,
     numericalValue: self.numericalValue,
     feeFraction: self.feeFraction,
     broadcastDate: self.broadcastDate
@@ -1440,10 +1460,13 @@ function EnhancedBroadcastModalViewModel() {
   self.resetForm = function() {
     self.addressObj = null;
     self.address(null);
-    self.textValue('');
+    //self.textValue0('The Bitcoin address used to broadcast');
+    //self.enhanced_radio1 = self.enhancedTypeFormat() == 'enhanced' ? 'enhanced' : 'CFD';
     self.numericalValue(-1);
     self.feeFraction(0);
     self.broadcastDate(new Date());
+    bootbox.alert("data 1: " + tv4.validate(data1, schema));
+    bootbox.alert("data 2: " + tv4.validate(data2, schema));
     self.validationModel.errors.showAllMessages(false);
   }
   
@@ -1452,6 +1475,7 @@ function EnhancedBroadcastModalViewModel() {
     if(resetForm) self.resetForm();
     self.addressObj = addressObj;
     self.address(self.addressObj.ADDRESS);
+    self.textValue0(self.addressObj.ADDRESS);
     self.shown(true);
     trackDialogShow('EnhancedBroadcast');
   }  
@@ -1476,20 +1500,16 @@ function EnhancedBroadcastModalViewModel() {
       enhanced_text3: self.textValue(),
       timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
       enhanced_value: parseFloat(self.numericalValue())
-      //enhanced_text1: bootbox.alert("data 1: " + self.jsonValue1()),
-      //enhanced_text2: bootbox.alert("data 2: " + self.jsonValue2())
     }
     //$.jqlog.debug(params); 
     
     var onSuccess = function(txHash, data, endpoint, addressType, armoryUTx) {
-      bootbox.alert("data 1: " + self.jsonValue1());
       self.hide();
       WALLET.showTransactionCompleteDialog(i18n.t("broadcast_transmitted") + " " + i18n.t(ACTION_PENDING_NOTICE),
         i18n.t("broadcast_to_be_transmitted"), armoryUTx);
     }
 
     var onError = function(jqXHR, textStatus, errorThrown, endpoint) {
-      bootbox.alert("data 1: " + self.jsonValue1());
       self.hide();
       bootbox.alert(textStatus);
     }

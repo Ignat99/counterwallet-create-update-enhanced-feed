@@ -604,6 +604,7 @@
   "enhanced_title": "Title",
   "enhanced_feed_address": "Feed address",
   "enhanced_feed_address_note": "Addresses that has non-zero balance",
+  "enhanced_format": "enhancedType",
   "enhanced_radio1": "binary",
   "enhanced_radio2": "CfD",
   "enhanced_label_category": "Category",

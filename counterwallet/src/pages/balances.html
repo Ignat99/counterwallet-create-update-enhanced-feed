@@ -993,44 +993,45 @@
             <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_feed_address'"></label>
             <div class="col col-sm-10">
                 <label class="input"><i class="icon-append fa fa-tag"></i>
-                    <input name="textValue" data-bind="value: textValue, valueUpdate : 'input'" type="text"/>
+                    <input name="textValue0" data-bind="value: textValue0, valueUpdate : 'input'" type="text"/>
                 </label>
                 <div class="note" data-bind="locale: 'enhanced_feed_address_note'"></div>
             </div>
           </div></section>
-            
+
           <section><div class="row">
-            <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_radio1'"></label>
+            <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_format'"></label>
             <div class="col col-sm-10">
-                <label class="input">
-                    <input name="enhanced_radio1" id="radio1" data-bind="value: textValue, valueUpdate : 'input'" type="radio"/>
+                <label class="radio">
+                    <input data-bind="checked: enhancedTypeFormat" name="enhancedFormat" value="binary" type="radio"/>
+                    <i></i><span data-bind="locale: 'enhanced_radio1'"></span>
                 </label>
-            </div>
-            <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_radio2'"></label>
-            <div class="col col-sm-10">
-                <label class="input">
-                    <input name="enhanced_radio1" id="radio2" data-bind="value: textValue, valueUpdate : 'input'" type="radio"/>
+                <label class="radio">
+                    <input data-bind="checked: enhancedTypeFormat" name="enhancedFormat" value="CFD" type="radio"/>
+                    <i></i><span data-bind="locale: 'enhanced_radio2'"></span>
                 </label>
             </div>
           </div></section>
                   
           <section><div class="row">
             <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_label_category'"></label>
-            <select class="form-control" id="category" name="category">
-              <option value="10">Currencies</option>
-              <option value="11">Politics</option>
-              <option value="12">Culture</option>
-              <option value="13">Global Events</option>
-              <option value="15">Sports</option>
-              <option value="14">Other</option>
-            </select>
+              <div class="col col-sm-10">
+              <select class="form-control" id="category" name="category">
+                <option value="10">Currencies</option>
+                <option value="11">Politics</option>
+                <option value="12">Culture</option>
+                <option value="13">Global Events</option>
+                <option value="15">Sports</option>
+                <option value="14">Other</option>
+              </select>
+              </div>
           </div></section>
 
           <section><div class="row">
             <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_text1'"></label>
             <div class="col col-sm-10">
                 <label class="input"><i class="icon-append fa fa-tag"></i>
-                    <input name="textValue1" data-bind="value: textValue, valueUpdate : 'input'" type="text"/>
+                    <input name="textValue1" data-bind="value: textValue1, valueUpdate : 'input'" type="text"/>
                 </label>
                 <div class="note" data-bind="locale: 'enhanced_text_note1'"></div>
             </div>
@@ -1039,8 +1040,8 @@
           <section><div class="row">
             <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_text2'"></label>
             <div class="col col-sm-10">
-                <label class="input"><i class="icon-append fa fa-tag"></i>
-                    <input name="textValue2" data-bind="value: textValue, valueUpdate : 'input'" type="text"/>
+                <label class="textarea"><i class="icon-append fa fa-tag"></i>
+                    <textarea rows="5" class="custom-scroll" name="textValue2" data-bind="value: textValue2, valueUpdate : 'input'"></textarea>
                 </label>
                 <div class="note" data-bind="locale: 'enhanced_text_note2'"></div>
             </div>
@@ -1050,7 +1051,7 @@
             <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_text3'"></label>
             <div class="col col-sm-10">
                 <label class="input"><i class="icon-append fa fa-tag"></i>
-                    <input name="textValue3" data-bind="value: textValue, valueUpdate : 'input'" type="text"/>
+                    <input name="textValue3" data-bind="value: textValue3, valueUpdate : 'input'" type="text"/>
                 </label>
                 <div class="note" data-bind="locale: 'enhanced_text_note3'"></div>
             </div>
@@ -1060,7 +1061,7 @@
             <label class="control-label col col-sm-2" data-bind="locale: 'enhanced_text4'"></label>
             <div class="col col-sm-10">
                 <label class="input"><i class="icon-append fa fa-tag"></i>
-                    <input name="textValue4" data-bind="value: textValue, valueUpdate : 'input'" type="text"/>
+                    <input name="textValue4" data-bind="value: textValue4, valueUpdate : 'input'" type="text"/>
                 </label>
                 <div class="note" data-bind="locale: 'enhanced_text_note4'"></div>
             </div>
