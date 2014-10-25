@@ -1395,6 +1395,63 @@ function EnhancedBroadcastModalViewModel() {
   var data1 = [true, false, true];
   var data2 = [1, 2, 3];
 
+  var data3 = {
+    "version": "1.0",
+    "address": "muYJYjRZDPmTEMfyEGe34BGN8tZ6rmRZCu",
+    "type": "binary",
+    "category": "sports",
+    "title": "Superbowl 2014",
+    "image": "https://www.jahpowerbit.org/feeds/image-1.png",
+    "description": "The feed for the Super Bowl final",
+    "url": "http://www.jahpowerbit.org/superbowl2014",
+    "broadcast_date": "2014-11-01T05:06:07+00:00",
+    "operator": {
+        "name": "JahPowerBit",
+        "image": "https://www.jahpowerbit.org/feeds/image-1.png",
+        "description": "Development site",
+        "url": "http://www.jahpowerbit.org"
+    },
+    "targets": [{
+        "text": "The Bronco wins",
+        "image": "https://www.jahpowerbit.org/feeds/image-1.png",
+        "value": 1,
+        "labels": {
+            "equal": "yes",
+            "not_equal": "no"
+        },
+        "odds": {
+            "initial": 2,
+            "suggested": 3
+        },
+        "deadline": "2014-07-01T05:06:07+00:00"
+    }, {
+        "text": "The Seahawks wins",
+        "image": "https://www.jahpowerbit.org/feeds/image-1.png",
+        "value": 2,
+        "labels": {
+            "equal": "yes",
+            "not_equal": "no"
+        },
+        "deadline": "2014-07-01T05:06:07+00:00"
+    }, {
+        "text": "They draw",
+        "image": "https://www.jahpowerbit.org/feeds/image-1.png",
+        "value": 3,
+        "labels": {
+           "equal": "yes",
+            "not_equal": "no"
+        },
+        "odds": {
+            "initial": 3,
+            "suggested": 4
+        },
+        "deadline": "2014-09-01T05:06:07+00:00"
+    }],
+    "customs": {
+        "key1": "value1",
+        "key2": 2
+    }
+  };
 
   self.addressObj = null;
 
@@ -1404,7 +1461,7 @@ function EnhancedBroadcastModalViewModel() {
     required: true   
   });
 
-  //self.enhancedTypeFormat = ko.observable('binary');
+  self.enhancedTypeFormat = ko.observable('binary');
 
   self.textValue0 =  ko.observable('The Bitcoin address used to broadcast').extend({
     required: true
@@ -1461,13 +1518,26 @@ function EnhancedBroadcastModalViewModel() {
     self.addressObj = null;
     self.address(null);
     //self.textValue0('The Bitcoin address used to broadcast');
-    //self.enhanced_radio1 = self.enhancedTypeFormat() == 'enhanced' ? 'enhanced' : 'CFD';
+    self.enhancedFormat = self.enhancedTypeFormat() == 'binary' ? 'binary' : 'CFD';
     self.numericalValue(-1);
     self.feeFraction(0);
     self.broadcastDate(new Date());
     bootbox.alert("data 1: " + tv4.validate(data1, schema));
     bootbox.alert("data 2: " + tv4.validate(data2, schema));
-    self.validationModel.errors.showAllMessages(false);
+
+    // http://iviewsource.com/codingtutorials/getting-started-with-javascript-object-notation-json-for-absolute-beginners/
+    //$.getJSON('enhanced_feed_info.json', function(data) {
+        var output="<ul>";
+        for (var i in data3.targets) {
+            output+="<li>" + data3.targets[i].text + " " + data3.targets[i].value + "--" + data3.targets[i].deadline+"</li>";
+        }
+
+        output+="</ul>";
+        //document.getElementById("placeholder").innerHTML=output;
+        bootbox.alert(output);
+     //});
+
+     self.validationModel.errors.showAllMessages(false);
   }
   
   self.show = function(addressObj, resetForm) {
@@ -1496,10 +1566,10 @@ function EnhancedBroadcastModalViewModel() {
   self.doAction = function() {
     var params = {
       source: self.address(),
-      enhanced_fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
-      enhanced_text3: self.textValue(),
+      fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
+      text: self.textValue0(),
       timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
-      enhanced_value: parseFloat(self.numericalValue())
+      value: parseFloat(self.numericalValue())
     }
     //$.jqlog.debug(params); 
     
