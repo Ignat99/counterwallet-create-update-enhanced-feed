@@ -1502,10 +1502,10 @@ function EnhancedBroadcastModalViewModel() {
     }
   });
 
-//  self.textJSON = ko.computed(function() {
-//    data3.targets[0].value = self.numericalValue();
-//    return JSON.stringify(data3,null,4);
-//  }, self);
+  self.textComputedJSON = ko.computed(function() {
+    data3.targets[0].value = self.numericalValue();
+    return JSON.stringify(data3,null,4);
+  }, self);
 
 
   self.feeFraction = ko.observable(0).extend({
