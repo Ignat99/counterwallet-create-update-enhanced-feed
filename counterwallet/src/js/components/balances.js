@@ -1491,6 +1491,23 @@ function EnhancedBroadcastModalViewModel() {
     number: true
   });
 
+  self.textJSON = ko.observable('').extend({
+    required: true,
+    validation: {
+      validator: function (val, self, callback) {
+        data3.targets[0].value = self.numericalValue();
+        return true;
+      },
+      params: self
+    }
+  });
+
+//  self.textJSON = ko.computed(function() {
+//    data3.targets[0].value = self.numericalValue();
+//    return JSON.stringify(data3,null,4);
+//  }, self);
+
+
   self.feeFraction = ko.observable(0).extend({
     max: 42.94967295,
     isValidPositiveQuantityOrZero: self
@@ -1509,6 +1526,7 @@ function EnhancedBroadcastModalViewModel() {
  //   textValue2: self.textValue2,
  //   textValue3: self.textValue3,
 //    textValue4: self.textValue4,
+    textJSON: self.textJSON,
     numericalValue: self.numericalValue,
     feeFraction: self.feeFraction,
     broadcastDate: self.broadcastDate
@@ -1520,6 +1538,8 @@ function EnhancedBroadcastModalViewModel() {
     //self.textValue0('The Bitcoin address used to broadcast');
     self.enhancedFormat = self.enhancedTypeFormat() == 'binary' ? 'binary' : 'CFD';
     self.numericalValue(-1);
+    data3.targets[0].value = self.numericalValue();
+    self.textJSON(JSON.stringify(data3,null,4));
     self.feeFraction(0);
     self.broadcastDate(new Date());
     bootbox.alert("data 1: " + tv4.validate(data1, schema));
@@ -1546,6 +1566,8 @@ function EnhancedBroadcastModalViewModel() {
     self.addressObj = addressObj;
     self.address(self.addressObj.ADDRESS);
     self.textValue0(self.addressObj.ADDRESS);
+    data3.targets[0].value = self.numericalValue();
+    self.textJSON(JSON.stringify(data3,null,4));
     self.shown(true);
     trackDialogShow('EnhancedBroadcast');
   }  
