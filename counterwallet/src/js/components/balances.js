@@ -1381,19 +1381,173 @@ function EnhancedBroadcastModalViewModel() {
   var self = this;
   //var tv4 = require('tv4');
   // http://geraintluff.github.io/tv4/
-  // var schema = tv4.getSchema('https://raw.githubusercontent.com/CounterpartyXCP/counterblockd/master/schemas/feed.schema.json');
+  //var schema = tv4.getSchema('https://raw.githubusercontent.com/CounterpartyXCP/counterblockd/master/schemas/feed.schema.json');
   
   tv4.addSchema("http://json-schema.org/schema", {
-      "definitions": {
-          "arrayItem": {"type": "boolean"}
-      }
+    "definitions": {
+        "operator": {
+            "type": "object",
+            "properties": {
+                "name": {"type" : "string", "maxLength": 64},
+                "image": {"type" : "string", "format": "uri"},
+                "description": {"type" : "string", "maxLength": 255},
+                "url": {"type" : "string", "format": "uri"}
+            },
+            "additionalProperties":false,
+            "required": ["name"]
+        },
+        "default_labels": {
+            "allOf": [{
+                "type": "object",
+                "properties": {
+                    "equal": {"type" : "string", "maxLength": 32},
+                    "not_equal": {"type" : "string", "maxLength": 32},
+                    "bear": {"type" : "string", "maxLength": 32},
+                    "bull": {"type" : "string", "maxLength": 32}
+                },
+                "additionalProperties":false
+            }, {
+                "anyOf":[{
+                    "type": "object",
+                    "properties": {
+                        "equal": {"type" : "string", "maxLength": 32},
+                        "not_equal": {"type" : "string", "maxLength": 32}
+                    },
+                    "required": ["equal", "not_equal"]
+                }, {
+                    "type": "object",
+                    "properties": {
+                        "bear": {"type" : "string", "maxLength": 32},
+                        "bull": {"type" : "string", "maxLength": 32}
+                    },
+                    "required": ["bear", "bull"]
+                }]
+            }]         
+        },
+        "target_labels": {
+            "type": "object",
+            "properties": {
+                "equal": {"type" : "string", "maxLength": 32},
+                "not_equal": {"type" : "string", "maxLength": 32}
+            },
+            "additionalProperties":false,
+            "required": ["equal", "not_equal"]
+        },
+        "default_odds": {
+            "oneOf":[{
+                "type": "object",
+                "properties": {
+                    "initial": {"type" : "number"}
+                },
+                "additionalProperties":false,
+                "required": ["initial"]                  
+            }, {
+                "type": "object",
+                "properties": {
+                    "suggested": {"type" : "number"}
+                },
+                "additionalProperties":false,
+                "required": ["suggested"]
+            }, {
+                "type": "object",
+                "properties": {
+                    "initial": {"type" : "number"},
+                    "suggested": {"type" : "number"}
+                },
+                "additionalProperties":false,
+                "required": ["initial", "suggested"]
+            }]
+        },
+        "target": {
+            "type": "object",
+            "properties": {
+                "text": {"type" : "string", "maxLength": 64},
+                "value": {"type" : "number"},
+                "deadline": {"type" : "string", "format": "date-time"},
+                "image": {"type" : "string", "format": "uri"},
+                "labels": {"$ref": "#/definitions/target_labels"},
+                "odds": {"$ref": "#/definitions/default_odds"}
+            },
+            "additionalProperties":false,
+            "required": ["text", "value", "deadline"]
+        },
+        "targets": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/target"},
+            "minItems": 1,
+            "uniqueItems": true
+        },
+        "customs": {
+            "type": "object",
+            "patternProperties": {
+                ".": {"type": ["string", "number"]}
+            }
+        },
+        "feed_properties": {          
+            "type": "object",
+            "properties" : {
+                "version" : {"type" : "string", "pattern": "^[0-9]+(\\.[0-9]+){1,2}$"},
+                "address" : {"type" : "string"},
+                "type": {"enum": ["binary", "cfd", "all"]},
+                "category": {"enum": ["sports", "politics", "entertainment", "economics", "other"]},
+                "title": {"type" : "string", "maxLength": 64},
+                "image": {"type" : "string", "format": "uri"},
+                "description": {"type" : "string", "maxLength": 255},
+                "url": {"type" : "string", "format": "uri"},
+                "broadcast_date": {"type" : "string"},   
+                "deadline": {"type" : "string", "format": "interval"},                 
+                "operator": {"$ref": "#/definitions/operator"},
+                "labels": {"$ref": "#/definitions/default_labels"},
+                "odds": {"$ref": "#/definitions/default_odds"},
+                "targets": {"$ref": "#/definitions/targets"},
+                "customs": {"$ref": "#/definitions/customs"}
+            },
+            "additionalProperties":false,
+            "required": ["address", "title"]  
+        },
+        "binary_feed": {
+            "type": "object",
+            "properties": {
+                "type": {"enum": ["binary", null]},
+                "broadcast_date": {"type" : "string", "format": "date-time"}
+            },
+            "required": ["broadcast_date", "targets"]
+        },
+        "cfd_feed": {
+            "type": "object",
+            "properties": {
+                "type": {"enum": ["cfd", null]},
+                "broadcast_date": {"type" : "string", "format": "interval"}
+            },
+            "required": ["broadcast_date", "deadline"]
+        },
+        "all_feed": {
+            "type": "object",
+            "properties": {
+                "type": {"enum": ["all", null]}
+            },
+            "required": ["targets", "broadcast_interval"]
+        },
+        "feed": {  
+            "allOf": [{
+                "$ref": "#/definitions/feed_properties"
+            }, { 
+                "anyOf" : [{
+                    "$ref": "#/definitions/binary_feed"   
+                }, {
+                    "$ref": "#/definitions/cfd_feed" 
+                }, {
+                    "$ref": "#/definitions/all_feed"
+                }]
+            }]          
+        }
+    }
+
   });
   var schema = {
-      "type": "array",
-      "items": {"$ref": "http://json-schema.org/schema#/definitions/arrayItem" }
+      "type": "object",
+      "items": {"$ref": "#/definitions/binary_feed" }
   };
-  var data1 = [true, false, true];
-  var data2 = [1, 2, 3];
 
   var data3 = {
     "version": "1.0",
@@ -1542,8 +1696,7 @@ function EnhancedBroadcastModalViewModel() {
     self.textJSON(JSON.stringify(data3,null,4));
     self.feeFraction(0);
     self.broadcastDate(new Date());
-    bootbox.alert("data 1: " + tv4.validate(data1, schema));
-    bootbox.alert("data 2: " + tv4.validate(data2, schema));
+    bootbox.alert("data 3: " + tv4.validate(data3, schema));
 
     // http://iviewsource.com/codingtutorials/getting-started-with-javascript-object-notation-json-for-absolute-beginners/
     //$.getJSON('enhanced_feed_info.json', function(data) {
