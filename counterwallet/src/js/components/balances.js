@@ -1586,14 +1586,27 @@ function EnhancedBroadcastModalViewModel() {
   }
 
   self.doAction = function() {
-    var params = {
-      source: self.address(),
-      fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
-      text: self.textValue0(),
-      timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
-      value: parseFloat(self.numericalValue())
-    }
-    //$.jqlog.debug(params); 
+    var params = {};
+
+    if (self.enhancedFormat == 'binary') { 
+       params = {
+        source: self.address(),
+        fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
+        text: self.textValue0(),
+        timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
+        value: parseFloat(self.numericalValue())
+      };
+    }; 
+    if (self.enhancedFormat == 'CFD') {
+      params = {
+        source: self.address(),
+        fee_fraction: Decimal.round(new Decimal(self.feeFraction()).div(100), 8, Decimal.MidpointRounding.ToEven).toFloat(),
+        text: self.textJSON(),
+        timestamp: self.broadcastDate() ? parseInt(self.broadcastDate().getTime() / 1000) : null,
+        value: parseFloat(self.numericalValue())
+      };
+    };
+//    $.jqlog.debug(params); 
     
     var onSuccess = function(txHash, data, endpoint, addressType, armoryUTx) {
       self.hide();
